@@ -1,0 +1,50 @@
+# nautilus-indicators
+
+[![build](https://github.com/nautechsystems/nautilus_trader/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/nautechsystems/nautilus_trader/actions/workflows/build.yml)
+[![Documentation](https://img.shields.io/docsrs/nautilus-indicators)](https://docs.rs/nautilus-indicators/latest/nautilus-indicators/)
+[![crates.io version](https://img.shields.io/crates/v/nautilus-indicators.svg)](https://crates.io/crates/nautilus-indicators)
+![license](https://img.shields.io/github/license/nautechsystems/nautilus_trader?color=blue)
+[![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?logo=discord&logoColor=white)](https://discord.gg/NautilusTrader)
+
+[NautilusTrader](http://nautilustrader.io) 的技术分析指标。
+
+*indicators* 包为量化交易和市场研究提供了全面的技术分析指标集合。这包括按类别组织的各种指标，采用统一的基于特征的架构以确保使用一致性：
+
+- **移动平均线**: SMA、EMA、DEMA、HMA、WMA、VWAP、自适应平均线和线性回归。
+- **动量指标**: RSI、MACD、Aroon、布林带、CCI、随机指标和变化率。
+- **波动率指标**: ATR、唐奇安通道、肯特纳通道和波动率比率。
+- **比率分析**: 效率比率和价差分析，用于相对性能分析。
+- **订单簿指标**: 订单簿失衡比率，用于分析市场微观结构。
+- **通用指标特征**: 统一接口，支持K线、报价、成交和订单簿数据。
+
+所有指标都设计用于高性能实时处理，具有有界内存使用和高效的循环缓冲区实现。该包同时支持Rust原生使用和Python集成，用于策略开发和回测。
+
+## 平台
+
+[NautilusTrader](http://nautilustrader.io) 是一个开源、高性能、生产级别的算法交易平台，为量化交易者提供了在历史数据上使用事件驱动引擎回测自动化交易策略投资组合的能力，同时也能部署这些相同的策略进行实盘交易，无需更改代码。
+
+NautilusTrader 的设计、架构和实现理念将软件正确性和安全性置于最高优先级，旨在支持关键任务的交易系统回测和实盘部署工作负载。
+
+## 功能标志
+
+此包提供功能标志来控制编译期间的源代码包含，取决于预期的使用场景，即是否为 [nautilus_trader](https://pypi.org/project/nautilus_trader) Python 包提供 Python 绑定，还是作为仅 Rust 构建的一部分。
+
+- `python`: 启用来自 [PyO3](https://pyo3.rs) 的 Python 绑定。
+
+## 文档
+
+有关更详细的使用方法，请参阅[文档](https://docs.rs/nautilus-indicators)。
+
+## 许可证
+
+NautilusTrader 的源代码在 GitHub 上以 [GNU Lesser General Public License v3.0](https://www.gnu.org/licenses/lgpl-3.0.en.html) 许可证提供。
+欢迎对项目贡献，需要完成标准的[贡献者许可协议 (CLA)](https://github.com/nautechsystems/nautilus_trader/blob/develop/CLA.md)。
+
+---
+
+NautilusTrader™ 由 Nautech Systems 开发和维护，这是一家专门开发高性能交易系统的技术公司。
+有关更多信息，请访问 <https://nautilustrader.io>。
+
+<img src="https://nautilustrader.io/nautilus-logo-white.png" alt="logo" width="400" height="auto"/>
+
+<span style="font-size: 0.8em; color: #999;">© 2015-2025 Nautech Systems Pty Ltd. 版权所有。</span>
