@@ -21,7 +21,7 @@
 3. 通过继承适用的`LiveDataClient`和`LiveMarketDataClient`类，并为所需方法提供实现来实现数据客户端。
 4. 通过继承`LiveExecutionClient`并为所需方法提供实现来实现执行客户端。
 5. 创建配置类来保存您的适配器设置。
-6. 彻底测试您的适配器以确保所有方法都正确实现且适配器按预期工作（参见[测试指南](testing.md)）。
+6. 彻底测试您的适配器以确保所有方法都正确实现且适配器按预期工作（参见[测试指南](testing_CN.md)）。
 
 ## 构建适配器的模板
 
@@ -261,5 +261,5 @@ class TemplateExecClientConfig(LiveExecClientConfig):
 **关键属性**：
 
 - `api_key`：用于与数据提供商进行身份验证的API密钥。
-- `api_secret`：用于与数据提供商进行身份验证的API密钥。
+- `api_secret`：用于与数据提供商进行身份验证的API秘钥。
 - `base_url`：连接到数据提供商API的基本URL。

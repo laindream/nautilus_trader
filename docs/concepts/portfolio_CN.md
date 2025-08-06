@@ -55,11 +55,11 @@ stat = WinRate()
 
 # 注册到投资组合分析器
 engine.portfolio.analyzer.register_statistic(stat)
+```
 
 :::info
-有关可用方法的详细信息，请参阅`PortfolioAnalyzer` [API参考](../api_reference/analysis_CN.md#class-portfolioanalyzer)。
+有关可用方法的详细信息，请参阅`PortfolioAnalyzer` [API参考](../api_reference/analysis.md#class-portfolioanalyzer)。
 :::
-```
 
 :::tip
 确保您的统计对于退化输入（如`None`、空系列或数据不足）是稳健的。
@@ -69,8 +69,8 @@ engine.portfolio.analyzer.register_statistic(stat)
 
 ## 回测分析
 
-在回测运行后，将通过将已实现PnL、收益、头寸和订单数据依次传递给每个注册的统计来进行性能分析，计算其值（使用默认配置）。然后任何输出都会显示在`投资组合表现`标题下的撕页中，分组为：
+在回测运行后，将通过将已实现PnL、收益、头寸和订单数据依次传递给每个注册的统计来进行性能分析，计算其值（使用默认配置）。然后任何输出都会显示在撕页中的`投资组合表现`标题下，分组为：
 
 - 已实现PnL统计（按货币）
 - 收益统计（整个投资组合）
-- 从头寸和订单数据派生的一般统计（整个投资组合） 
+- 从头寸和订单数据派生的一般统计（整个投资组合）

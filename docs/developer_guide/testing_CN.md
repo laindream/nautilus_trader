@@ -75,4 +75,25 @@ cargo nextest run --workspace --features "python,ffi,high-precision,defi" --carg
 ## 排除的代码覆盖率
 
 整个代码库中找到的`pragma: no cover`注释[从测试覆盖率中排除代码](https://coverage.readthedocs.io/en/coverage-4.3.3/excluding.html)。
-使用它们的原因是为了减少为了保持高覆盖率而进行的冗余/不必要的测试，例如： 
+使用它们的原因是为了减少为了保持高覆盖率而进行的冗余/不必要的测试，例如：
+
+- 断言调用抽象方法时引发`NotImplementedError`。
+- 当无法测试时断言if-else块的最终条件检查（如上所述）。
+
+这些测试维护成本高（因为它们必须与任何重构保持一致），回报很少或没有好处。
+意图是让所有抽象方法实现都被测试完全覆盖。
+因此，当不再适当时应该明智地移除`pragma: no cover`，并将其使用*限制*在上述情况下。
+
+## 调试Rust测试
+
+Rust测试可以使用默认测试配置进行调试。
+
+如果您想在编译时使用调试符号运行所有测试以便以后单独调试某些测试，
+请运行`make cargo-test-debug`而不是`make cargo-test`。
+
+在IntelliJ IDEA中，要调试以`#[rstest]`开头且在测试头部定义参数的参数化测试，
+您需要修改测试的运行配置，使其看起来像`test --package nautilus-model --lib data::bar::tests::test_get_time_bar_start::case_1`
+（删除字符串末尾的`-- --exact`并附加`::case_n`，其中`n`是对应于从1开始的第n个参数化测试的整数）。
+这样做的原因在[这里](https://github.com/rust-lang/rust-analyzer/issues/8964#issuecomment-871592851)有文档记录（测试被扩展为一个包含几个名为`case_n`的函数的模块）。
+
+在VS Code中，可以直接选择要调试的测试用例。

@@ -33,6 +33,6 @@ Cython是Python的超集，编译为C扩展模块，支持可选的静态类型�
 在调试并寻求理解像NautilusTrader这样的复杂系统时，使用调试器逐步执行代码可能非常有帮助。由于这对代码库的Cython部分不可用，有一些事情可以帮助：
 
 - 确保为您正在调试的回测或实时系统配置`LogLevel.DEBUG`。
-  这在`BacktestEngineConfig(logging=LoggingConfig(log_level="DEBUG"))`或`TradingNodeConfig(logging=LoggingConfig=log_level="DEBUG"))`上可用。
+  这在`BacktestEngineConfig(logging=LoggingConfig(log_level="DEBUG"))`或`TradingNodeConfig(logging=LoggingConfig(log_level="DEBUG"))`上可用。
   激活`DEBUG`模式后，您将看到更细粒度和详细的日志跟踪，这可能是您理解流程所需的。
-- 除此之外，如果您仍然需要系统某部分的更细粒度可见性，我们建议对组件记录器进行一些精心安排的调用（通常`self._log.debug(f"HERE {variable}"`就足够了）。 
+- 除此之外，如果您仍然需要系统某部分的更细粒度可见性，我们建议对组件记录器进行一些精心安排的调用（通常`self._log.debug(f"HERE {variable}")`就足够了）。

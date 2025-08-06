@@ -188,4 +188,4 @@ node.build()
 
 ## 参考
 
-有关更多详情，请参阅OKX [API文档](https://www.okx.com/docs-v5/)和NautilusTrader [API参考](../api_reference/adapters/okx.md)。 
+有关更多详情，请参阅OKX [API文档](https://www.okx.com/docs-v5/)和NautilusTrader [API参考](../api_reference/adapters/okx.md)。

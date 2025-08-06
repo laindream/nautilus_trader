@@ -91,4 +91,65 @@ class MyActor(Actor):
 
 ### 示例
 
-以下是演示历史和实时数据处理的示例： 
+以下是演示历史和实时数据处理的示例：
+
+```python
+from nautilus_trader.common.actor import Actor
+from nautilus_trader.config import ActorConfig
+from nautilus_trader.core.data import Data
+from nautilus_trader.model import Bar, BarType
+from nautilus_trader.model import ClientId, InstrumentId
+
+
+class MyActorConfig(ActorConfig):
+    instrument_id: InstrumentId  # 示例值："AAPL.XNAS"
+    bar_type: BarType            # 示例值："AAPL.XNAS-1-MINUTE-LAST-EXTERNAL"
+
+
+class MyActor(Actor):
+    def __init__(self, config: MyActorConfig) -> None:
+        super().__init__(config)
+        self.bar_type = config.bar_type
+
+    def on_start(self) -> None:
+        # 请求历史数据 - 将由on_historical_data()处理程序处理
+        self.request_bars(
+            bar_type=self.bar_type,
+            # 许多可选参数
+            start=None,                # datetime, 可选
+            end=None,                  # datetime, 可选
+            callback=None,             # 完成时使用请求ID调用
+            update_catalog_mode=None,  # UpdateCatalogMode | None, 默认None
+            params=None,               # dict[str, Any], 可选
+        )
+
+        # 订阅实时数据 - 将由on_bar()处理程序处理
+        self.subscribe_bars(
+            bar_type=self.bar_type,
+            # 许多可选参数
+            client_id=None,       # ClientId, 可选
+            await_partial=False,  # bool, 默认False
+            params=None,          # dict[str, Any], 可选
+        )
+
+    def on_historical_data(self, data: Data) -> None:
+        # 处理历史数据（来自请求）
+        if isinstance(data, Bar):
+            self.log.info(f"收到历史K线：{data}")
+
+    def on_bar(self, bar: Bar) -> None:
+        # 处理实时K线更新（来自订阅）
+        self.log.info(f"收到实时K线：{bar}")
+```
+
+历史和实时数据处理程序之间的这种分离允许基于数据上下文的不同处理逻辑。例如，您可能想要：
+
+- 使用历史数据初始化指标或建立基线指标。
+- 对实时数据进行不同处理以进行实时交易决策。
+- 对历史数据与实时数据应用不同的验证或日志记录。
+
+:::tip
+在调试数据流问题时，检查您是否查看了数据源的正确处理程序。
+如果您在`on_bar()`中没有看到数据但看到关于接收K线的日志消息，请检查`on_historical_data()`，
+因为数据可能来自请求而不是订阅。
+:::

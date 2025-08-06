@@ -558,7 +558,7 @@ unsafe impl Send for MessageBus {}
 
 - **Crate级lint** – 每个暴露FFI符号的crate启用`#![deny(unsafe_op_in_unsafe_fn)]`。即使在`unsafe fn`内部，每个指针解引用或其他危险操作都必须包装在自己的`unsafe { … }`块中。
 
-- **CVec合同** – 对于跨越FFI边界的原始向量，请阅读[FFI内存合同](ffi.md)。外部代码成为分配的所有者，**必须**恰好调用一次匹配的`vec_drop_*`函数。
+- **CVec合同** – 对于跨越FFI边界的原始向量，请阅读[FFI内存合同](ffi_CN.md)。外部代码成为分配的所有者，**必须**恰好调用一次匹配的`vec_drop_*`函数。
 
 ## 工具配置
 

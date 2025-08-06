@@ -92,3 +92,72 @@ InstrumentProviderConfig(load_ids=["BTCUSDT-PERP.BINANCE", "ETHUSDT-PERP.BINANCE
 cpdef void request_instrument(self, InstrumentId instrument_id, ClientId client_id=None):
     """
     为给定的工具ID请求`Instrument`数据。
+
+    参数
+    ----------
+    instrument_id : InstrumentId
+        请求的工具ID。
+    client_id : ClientId, 可选
+        命令的特定客户端ID。
+        如果为``None``，则将从工具ID中的场所推断。
+    """
+    Condition.not_none(instrument_id, "instrument_id")
+
+    cdef RequestInstrument request = RequestInstrument(
+        instrument_id=instrument_id,
+        start=None,
+        end=None,
+        client_id=client_id,
+        venue=instrument_id.venue,
+        callback=self._handle_instrument_response,
+        request_id=UUID4(),
+        ts_init=self._clock.timestamp_ns(),
+        params=None,
+    )
+
+    self._send_data_req(request)
+```
+
+在`LiveMarketDataClient`中实现的请求处理程序的简化版本将检索数据并将其发送回角色/策略，例如：
+
+```python
+# nautilus_trader/live/data_client.py
+
+def request_instrument(self, request: RequestInstrument) -> None:
+    self.create_task(self._request_instrument(request))
+
+# nautilus_trader/adapters/binance/data.py
+
+async def _request_instrument(self, request: RequestInstrument) -> None:
+    instrument: Instrument | None = self._instrument_provider.find(request.instrument_id)
+
+    if instrument is None:
+        self._log.error(f"Cannot find instrument for {request.instrument_id}")
+        return
+
+    self._handle_instrument(instrument, request.id, request.params)
+```
+
+`DataEngine`是Nautilus中的一个重要组件，它将请求与`DataClient`链接起来。
+例如，处理工具请求的简化版本是：
+
+```python
+# nautilus_trader/data/engine.pyx
+
+self._msgbus.register(endpoint="DataEngine.request", handler=self.request)
+
+cpdef void request(self, RequestData request):
+    self._handle_request(request)
+
+cpdef void _handle_request(self, RequestData request):
+    cdef DataClient client = self._clients.get(request.client_id)
+
+    if client is None:
+        client = self._routing_map.get(request.venue, self._default_client)
+
+    if isinstance(request, RequestInstrument):
+        self._handle_request_instrument(client, request)
+
+cpdef void _handle_request_instrument(self, DataClient client, RequestInstrument request):
+    client.request_instrument(request)
+```

@@ -77,4 +77,43 @@ long_method_with_many_params(
 def __init__(self, config: EMACrossConfig) -> None:
 def on_bar(self, bar: Bar) -> None:
 def on_save(self) -> dict[str, bytes]:
-``` 
+def on_load(self, state: dict[str, bytes]) -> None:
+```
+
+**泛型类型**：对可重用组件使用`TypeVar`
+
+```python
+T = TypeVar("T")
+class ThrottledEnqueuer(Generic[T]):
+```
+
+### 文档字符串
+
+整个代码库中使用[NumPy文档字符串规范](https://numpydoc.readthedocs.io/en/latest/format.html)。
+必须始终如一地遵守这一点，以确保文档正确构建。
+
+**测试方法命名**：解释场景的描述性名称：
+
+```python
+def test_currency_with_negative_precision_raises_overflow_error(self):
+def test_sma_with_no_inputs_returns_zero_count(self):
+def test_sma_with_single_input_returns_expected_value(self):
+```
+
+### Ruff
+
+使用[ruff](https://astral.sh/ruff)来检查代码库。Ruff规则可以在顶级`pyproject.toml`中找到，忽略的理由通常有注释。
+
+### 提交消息
+
+以下是提交消息风格的一些指导原则：
+
+1. 主题标题限制在60个字符或更少。首字母大写，不以句号结尾。
+
+2. 使用'祈使语气'，即消息应描述如果应用了提交会做什么。
+
+3. 可选：使用正文来解释更改。用空行与主题分隔。保持在100字符宽度以下。您可以使用有或没有结束句号的项目符号。
+
+4. 可选：提供相关问题或票据的#引用。
+
+5. 可选：提供任何有信息的超链接。

@@ -46,7 +46,8 @@ NautilusTrader为回测提供两个不同的API级别：
 
 ### [回测（低级API）](backtest_low_level_CN.md)
 
-本教程介绍如何使用数据加载器和整理器加载原始数据（Nautilus外部），然后将此数据与`BacktestEngine`一起使用来运行单个回测。
+本教程介绍如何使用数据加载器和整理器加载原始数据（Nautilus外部），
+然后将此数据与`BacktestEngine`一起使用来运行单个回测。
 
 ### [回测（高级API）](backtest_high_level_CN.md)
 
@@ -71,4 +72,4 @@ NautilusTrader目前超过了Jupyter笔记本日志记录（stdout输出）的�
 - <https://github.com/jupyterlab/jupyterlab/issues/12845>
 - <https://github.com/deshaw/jupyterlab-limit-output>
 
-::: 
+:::
