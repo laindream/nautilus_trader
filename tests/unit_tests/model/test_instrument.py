@@ -604,11 +604,14 @@ class TestInstrument:
         with pytest.raises(ValueError):
             instrument.next_bid_price(100.123456)
 
+        tick_scheme_name = "FOREX_5DECIMAL"
+
         # Act
-        instrument.set_tick_scheme_name("FOREX_5DECIMAL")
+        instrument.set_tick_scheme(tick_scheme_name)
         result = instrument.next_bid_price(100.123456)
 
         # Assert
+        assert instrument.tick_scheme_name == tick_scheme_name
         assert result == Price.from_str("100.12345")
 
     @pytest.mark.parametrize(
@@ -703,7 +706,7 @@ class TestInstrument:
         ("instrument", "value", "num_ticks", "expected_first", "expected_last"),
         [
             (AUDUSD_SIM, 0.72000, 10, "0.72000", "0.72009"),
-            (AUDUSD_SIM, 0.72001, 5, "0.72002", "0.72006"),
+            (AUDUSD_SIM, 0.72001, 5, "0.72001", "0.72005"),  # Price-inclusive: start at boundary
             (AUDUSD_SIM, 0.90001, 3, "0.90001", "0.90003"),
         ],
     )
@@ -729,8 +732,8 @@ class TestInstrument:
     @pytest.mark.parametrize(
         ("instrument", "value", "num_ticks", "expected_first", "expected_last"),
         [
-            (AUDUSD_SIM, 0.72000, 10, "0.71999", "0.71990"),
-            (AUDUSD_SIM, 0.72000, 5, "0.71999", "0.71995"),
+            (AUDUSD_SIM, 0.72000, 10, "0.72000", "0.71991"),  # Price-inclusive: start at boundary
+            (AUDUSD_SIM, 0.72000, 5, "0.72000", "0.71996"),  # Price-inclusive: start at boundary
             (AUDUSD_SIM, 0.90000, 3, "0.90000", "0.89998"),
         ],
     )

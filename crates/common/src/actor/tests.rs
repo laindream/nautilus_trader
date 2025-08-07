@@ -1534,7 +1534,8 @@ fn test_subscribe_and_receive_pool_swaps(
     );
 
     let pool_address = Address::from_str("0xC31E54c7A869B9fCbECC14363CF510d1C41Fa443").unwrap();
-    let instrument_id = InstrumentId::from("WETH/USDC-30.Ethereum.UniswapV3");
+    let instrument_id =
+        InstrumentId::from("0xC31E54c7a869B9FcBEcc14363CF510d1c41fa443.Arbitrum:UniswapV3");
 
     let swap = PoolSwap::new(
         chain.clone(),
@@ -1573,7 +1574,7 @@ fn test_unsubscribe_pool_swaps(
     let actor = get_actor_unchecked::<TestDataActor>(&actor_id);
     actor.start().unwrap();
 
-    use nautilus_model::defi::{Dex, DexType, Pool, Token, chain::chains, dex::AmmType};
+    use nautilus_model::defi::{Dex, DexType, Pool, chain::chains, dex::AmmType};
 
     let chain = Arc::new(chains::ETHEREUM.clone());
     let dex = Dex::new(
@@ -1587,22 +1588,8 @@ fn test_unsubscribe_pool_swaps(
         "Mint",
         "Burn",
     );
-    let token0 = Token::new(
-        chain.clone(),
-        Address::from([0x11; 20]),
-        "WETH".to_string(),
-        "WETH".to_string(),
-        18,
-    );
-    let token1 = Token::new(
-        chain.clone(),
-        Address::from([0x22; 20]),
-        "USDC".to_string(),
-        "USDC".to_string(),
-        6,
-    );
     let pool_address = Address::from_str("0xC31E54c7A869B9fCbECC14363CF510d1C41Fa443").unwrap();
-    let instrument_id = Pool::create_instrument_id(chain.name, &dex, &token0, &token1, 50);
+    let instrument_id = Pool::create_instrument_id(chain.name, &dex, &pool_address);
 
     actor.subscribe_pool_swaps(instrument_id, None, None);
 
